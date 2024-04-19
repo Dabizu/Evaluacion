@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div><p>registro de usuario</p>
+        <p>usuario</p><input type="text" id="usuario">
+        <p>correo</p><input type="text" id="correo">
+        <p>telefono</p><input type="text" id="telefono">
+        <p>passwod</p><input type="password" name="" id="password">
+        <button onclick="enviarDatos()">enviar</button>
+    </div>
+<br>
+    <div>
+        <p>login</p>
+        <p>usuario o correo</p><input type="text" name="" id="usuariologin">
+        <p>passwod</p><input type="password" name="" id="passwodlogin">
+        <button onclick="login()">logiarse</button>
+    </div>
+
+    <script>
+        function enviarDatos(){
+            var usuario=document.getElementById("usuario").value;
+            var correo=document.getElementById("correo").value;
+            var telefono=document.getElementById("telefono").value;
+            var password=document.getElementById("password").value;
+            fetch("/registroUsuario?usuario="+usuario+"&correo="+correo+"&telefono="+telefono+"&password="+password,{method:"POST"})
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if(data.type==="error"){
+                    alert(data.text);
+                }else{
+                    alert("se a registrado un usuario")
+                }
+            });
+        }
+
+        function login(){
+            var usuarioCorreo=document.getElementById("usuariologin").value;
+            var passwod=document.getElementById("passwodlogin").value;
+            fetch("/login?usuariocorreo="+usuarioCorreo+"&password="+passwod,{method:"POST"})
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if(data.type==="error"){
+                    alert(data.text);
+                }else{
+                    alert(data.text)
+                }
+            });
+        }
+        
+    </script>
+</body>
+
+</html>
