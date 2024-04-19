@@ -9,7 +9,7 @@
 
 <body>
     <center>
-        <div style="width: 400px;height: 400px; background-color: cornflowerblue; border-radius: 20px;"
+        <div style="width: 400px;height: 500px; background-color: cornflowerblue; border-radius: 20px;"
             id="registroUsuario">
             <br>
             <p>registro de usuario</p>
@@ -17,6 +17,7 @@
             <p>correo</p><input type="text" id="correo">
             <p>telefono</p><input type="text" id="telefono">
             <p>passwod</p><input type="password" name="" id="password">
+            <p>passwod</p><input type="password" name="" id="passwordCoonfirmacion">
             <br>
             <button onclick="enviarDatos()">enviar</button>
         </div>
@@ -60,21 +61,26 @@
             var correo = document.getElementById("correo").value;
             var telefono = document.getElementById("telefono").value;
             var password = document.getElementById("password").value;
-            fetch("/registroUsuario?usuario=" + usuario + "&correo=" + correo + "&telefono=" + telefono + "&password=" +
-                    password, {
-                        method: "POST"
-                    })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    if (data.type === "error") {
-                        alert(data.text);
-                    } else {
-                        desaparecerRegistroUsuario()
-                        aparecerLogin()
-                        alert("se a registrado un usuario")
-                    }
-                });
+            var passwordCoonfirmacion = document.getElementById("passwordCoonfirmacion").value;
+            if(password===passwordCoonfirmacion){
+                fetch("/registroUsuario?usuario=" + usuario + "&correo=" + correo + "&telefono=" + telefono + "&password=" +
+                        password, {
+                            method: "POST"
+                        })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.type === "error") {
+                            alert(data.text);
+                        } else {
+                            desaparecerRegistroUsuario()
+                            aparecerLogin()
+                            alert("se a registrado un usuario")
+                        }
+                    });
+            }else{
+                alert("el password no esta verfiicado");
+            }
         }
 
         function login() {
